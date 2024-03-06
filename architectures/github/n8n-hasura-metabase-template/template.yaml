@@ -1,0 +1,157 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+# https://backstage.io/docs/features/software-catalog/descriptor-format#kind-template
+kind: Template
+metadata:
+  name: n8n-hasura-metabase-template
+  title: Data pipeline & Analytics Stack
+  description: Reference architecture that deploys an analytics stack with the help of n8n, Hasura, metabase and Postgres
+  tags:
+    - reference-architecture
+    - n8n
+    - hasura
+    - metabase
+    - postgres
+    - analytics
+    - data-pipeline
+spec:
+  owner: user:99xadmin
+  system: ProductCentral
+  type: service
+
+  parameters:
+    - title: Provide information about the new component
+      required:
+        - name
+        - repoUrl
+      properties:
+        name:
+          title: Name
+          type: string
+          description: Unique name of the component
+          ui:autofocus: true
+          ui:options:
+            rows: 5
+        repoUrl:
+          title: Repository Location
+          type: string
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+    - title: Provide information for configuring the stack
+      required:
+        - postgresDbName
+        - postgresUserName
+        - postgresPassword
+        - hasuraGraphQLAdminPassword
+        - awsAccessKey
+        - awsSecretKey
+        - awsRegion
+        - genericTimeZone
+      properties:
+        postgresDbName:
+          title: Postgres Database Name
+          type: string
+          description: The name of your postgres database
+          ui:autofocus: true
+        postgresUserName:
+          title: Postgres DB User Name
+          type: string
+          description: The name of your DB user name
+        postgresPassword:
+          title: Postgres DB Password
+          type: string
+          description: The password of your DB
+          ui:widget: password
+        hasuraGraphQLAdminPassword:
+          title: Hasura GraphQL Admin Password
+          type: string
+          description: The password of your Hasura Admin user
+          ui:widget: password
+        awsAccessKey:
+          title: AWS account Access Key
+          type: string
+          description: The Access key for your AWS account
+          ui:widget: password
+        awsSecretKey:
+          title: AWS account secret
+          type: string
+          description: The secret value for your AWS account
+          ui:widget: password
+        awsRegion:
+          title: AWS Region
+          type: string
+          description: The region to deploy to in your AWS account
+          enum:
+            - ap-southeast-1
+            - ap-south-1      
+        genericTimeZone:
+          title: Time Zone
+          type: string
+          description: Time Zone used by your n8n and metabase applications
+          enum:
+            - Asia/Singapore
+            - Asia/Colombo
+
+  # These steps are executed in the scaffolder backend, using data that we gathered
+  # via the parameters above.
+  steps:
+    # Each step executes an action, in this case one templates files into the working directory.
+    - id: fetch-base
+      name: Fetch Base
+      action: fetch:template
+      input:
+        url: ./content
+        copyWithoutTemplating:
+          - "**/.github/**"
+          - "./**/.github/**"
+        values:
+          name: ${{ parameters.name }}
+          slug: ${{ parameters.repoUrl | projectSlug }}
+
+    # This step publishes the contents of the working directory to GitHub.
+    - id: publish
+      name: Publish
+      action: publish:github
+      input:
+        allowedHosts: ['github.com']
+        description: This is ${{ parameters.name }}
+        repoUrl: ${{ parameters.repoUrl }}
+        repoVisibility: private
+        defaultBranch: main
+
+    # Trigger a GitHub Action to set up the EKS cluster
+    - id: github-action
+      name: Trigger GitHub Action
+      action: github:actions:dispatch
+      input:
+        workflowId: 'data-analytics.yml' # GitHub Action workflow ID
+        repoUrl: ${{ parameters.repoUrl }}
+        branchOrTagName: 'main' # The branch to run this action on
+        workflowInputs:
+          appName: ${{ parameters.name }}
+          postgresDbName: ${{ parameters.postgresDbName }}
+          postgresUserName: ${{ parameters.postgresUserName }}
+          postgresPassword: ${{ parameters.postgresPassword }}
+          hasuraGraphQLAdminPassword: ${{ parameters.hasuraGraphQLAdminPassword }}
+          awsAccessKey: ${{ parameters.awsAccessKey }}
+          awsSecretKey: ${{ parameters.awsSecretKey }}
+          awsRegion: ${{ parameters.awsRegion }}
+          genericTimeZone: ${{ parameters.genericTimeZone }}
+
+    # The final step is to register our new component in the catalog.
+    - id: register
+      name: Register
+      action: catalog:register
+      input:
+        repoContentsUrl: ${{ steps['publish'].output.repoContentsUrl }}
+        catalogInfoPath: '/catalog-info.yaml'
+
+  # Outputs are displayed to the user after a successful execution of the template.
+  output:
+    links:
+      - title: Repository
+        url: ${{ steps['publish'].output.remoteUrl }}
+      - title: Open in catalog
+        icon: catalog
+        entityRef: ${{ steps['register'].output.entityRef }}

@@ -1,0 +1,53 @@
+name: Deploy Analytics stack to AWS
+
+on:
+  workflow_dispatch:
+    inputs:
+      appName:
+        description: 'The name of your application'
+        required: true 
+      postgresDbName:
+        description: 'The name of your postgres database'
+        required: true 
+      postgresUserName:
+        description: 'Postgres DB User Name'
+        required: true
+      postgresPassword:
+        description: 'Postgres DB Password'
+        required: true
+      hasuraGraphQLAdminPassword:
+        description: 'Hasura GraphQL Admin Password'
+        required: true
+      awsAccessKey:
+        description: 'AWS account Access Key'
+        required: true
+      awsSecretKey:
+        description: 'AWS account secret'
+        required: true
+      awsRegion:
+        description: 'AWS Region'
+        required: true
+      genericTimeZone:
+        description: 'Time Zone'
+        required: true
+
+jobs:
+  apply_cluster:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+    - name: Terraform Init
+      run: terraform init
+      working-directory: Terraform
+    - name: Terraform Format
+      run: terraform fmt
+      working-directory: Terraform
+    - name: Terraform Validate
+      run: terraform validate
+      working-directory: Terraform
+    - name: Terraform Apply
+      run: terraform apply -var postgres_db_name=${{ github.event.inputs.postgresDbName }} -var postgres_user_name=${{ github.event.inputs.postgresUserName }} -var postgres_password=${{ github.event.inputs.postgresPassword }} -var hasura_graph_ql_admin_password=${{ github.event.inputs.hasuraGraphQLAdminPassword }}  -var generic_time_zone=${{ github.event.inputs.genericTimeZone }} -var app_name=${{ github.event.inputs.appName }} -var aws_access_key=${{github.event.inputs.awsAccessKey}} -var aws_secret_key=${{github.event.inputs.awsSecretKey}} -var aws_region=${{github.event.inputs.awsRegion}} -auto-approve
+      working-directory: Terraform

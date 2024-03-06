@@ -1,0 +1,108 @@
+---
+# https://backstage.io/docs/features/software-catalog/descriptor-format#kind-user
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: guest
+spec:
+  memberOf: [guests]
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: keshav
+spec:
+  memberOf: [99x-internal, ProductCentral]
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: adri
+spec:
+  memberOf: [99x-internal, ProductCentral]
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: hasith
+spec:
+  memberOf: [99x-internal, ProductCentral]
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: sachith
+spec:
+  memberOf: [99x-internal, ProductCentral]
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: yohan
+spec:
+  memberOf: [99x-internal, ProductCentral]
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: yovin
+spec:
+  memberOf: [99x-internal, ProductCentral]
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: janaka
+spec:
+  memberOf: [99x-internal, ProductCentral]
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: pcadmin
+spec:
+  memberOf: [99x-internal, ProductCentral]
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: 99xadmin
+spec:
+  memberOf: [99x-internal, ProductCentral]
+
+---
+# https://backstage.io/docs/features/software-catalog/descriptor-format#kind-group
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: guests
+spec:
+  type: team
+  children: []
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: 99x-internal
+spec:
+  type: team
+  children: []
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: ProductCentral
+spec:
+  type: team
+  children: []

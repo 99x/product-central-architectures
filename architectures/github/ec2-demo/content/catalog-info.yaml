@@ -1,0 +1,14 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ${{ values.name | dump }}
+  annotations:
+    # example infra repo - https://github.com/sagar0419/aws-ec2
+    github.com/project-slug: sagar0419/aws-ec2 # TODO: Change the value to your github repo which contains terraform code.
+    backstage.io/techdocs-ref: dir:.
+  title: ${{ values.title | dump }}
+  description: ${{ values.description | dump }}
+spec:
+  type: ${{ values.type | dump }}
+  owner: ${{ values.owner | dump }}
+  lifecycle: experimental

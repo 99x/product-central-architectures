@@ -1,0 +1,24 @@
+apiVersion: backstage.io/v1alpha1
+kind: Location
+metadata:
+  name: product-central-gpt-collection
+  description: A collection of Backstage Golden Path architectures for Product Central
+spec:
+  type: url
+  targets:
+    - https://github.com/99x/product-central-architectures/blob/main/architectures/github/go-backend/template.yaml
+    - https://github.com/99x/product-central-architectures/blob/main/architectures/github/nodejs-backend/template.yaml
+    - https://github.com/99x/product-central-architectures/blob/main/architectures/gitlab/python-backend/template.yaml
+    - https://github.com/99x/product-central-architectures/blob/main/architectures/azure/dotnet-frontend/template.yaml
+    - https://github.com/99x/product-central-architectures/blob/main/architectures/github/spring-boot-backend/template.yaml
+    - https://github.com/99x/product-central-architectures/blob/main/architectures/github/quarkus-backend/template.yaml
+    - https://github.com/99x/product-central-architectures/blob/main/architectures/github/argocd/template.yaml
+    - https://github.com/99x/product-central-architectures/blob/main/architectures/github/launch-ansible-job/template.yaml
+    - https://github.com/99x/product-central-architectures/blob/main/architectures/github/define-ansible-job/template.yaml
+    - https://github.com/99x/product-central-architectures/blob/main/architectures/github/register-component/template.yaml
+    - https://github.com/99x/product-central-architectures/blob/main/architectures/github/tekton/template.yaml
+    - https://github.com/99x/product-central-architectures/blob/main/architectures/github/techdocs/template.yaml
+    - https://github.com/99x/product-central-architectures/blob/main/architectures/github/ec2-demo/template.yaml
+    - https://github.com/99x/product-central-architectures/blob/main/architectures/github/n8n-hasura-metabase-template/template.yaml
+    - https://github.com/99x/product-central-architectures/blob/main/architectures/github/microservices-architecture/template.yaml
+    - https://github.com/99x/product-central-architectures/blob/main/architectures/github/java-enterprise-architecture/template.yaml
