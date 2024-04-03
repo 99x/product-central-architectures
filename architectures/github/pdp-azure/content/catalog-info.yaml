@@ -1,0 +1,22 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ${{ values.name | dump }}
+  annotations:
+    github.com/project-slug: ${{ values.slug }}
+  description: ${{ values.name }} is a service that serves Product Central App
+    to Azure using Terraform
+  tags:
+    - azure
+    - deployment
+    - productcentral
+    - terraform
+  links:
+    - url: https://github.com/99x/product-central-architectures
+      title: 99x Product Central Architectures
+      icon: dashboard
+spec:
+  type: service
+  owner: user:99xadmin
+  lifecycle: development
+  system: productcentral

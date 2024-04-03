@@ -1,0 +1,11 @@
+{
+  "project": "your_gcp_project_id",
+  "orgName": "your_organization_name",
+  "appTitle": "your_app_title",
+  "githubToken": "your_github_token",
+  "githubClientId": "your_github_client_id",
+  "githubClientSecret": "your_github_client_secret",
+  "gcpCredentials": "your_gcp_credentials_in_base64",
+  "env": "your_environment",
+  "region": "your_region"
+}
