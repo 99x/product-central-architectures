@@ -16,7 +16,7 @@ resource "aws_cloudfront_distribution" "cf_distribution" {
     custom_origin_config {
       http_port              = 80
       https_port             = 443
-      origin_protocol_policy = "https-only"
+      origin_protocol_policy = "http-only"
       origin_ssl_protocols   = ["TLSv1.2"]
     }
   }
@@ -51,9 +51,9 @@ resource "aws_cloudfront_distribution" "cf_distribution" {
 
 # update ssm with cloudfront url
 resource "aws_ssm_parameter" "cloudfront_url" {
-  name      = "/${var.project}/${var.env}/APP_URL"
-  type      = "String"
-  value     = "https://${aws_cloudfront_distribution.cf_distribution.domain_name}"  
+  name  = "/${var.project}/${var.env}/APP_URL"
+  type  = "String"
+  value = "https://${aws_cloudfront_distribution.cf_distribution.domain_name}"
 
   overwrite = true
 }

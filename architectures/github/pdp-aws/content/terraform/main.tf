@@ -79,12 +79,11 @@ module "aws_ecs" {
   depends_on = [module.aws_vpc, module.aws_alb, module.aws_ssm, module.aws_iam]
 }
 
-### Cloudfront - TO BE FIX: 504 Response from Cloudfront (once fixed, uncomment the code and use container image : latest)
-# module "aws_cloudfrount" {
-#   source       = "./modules/cloudfront"
-#   project      = var.project
-#   env          = var.env
-#   alb_dns_name = module.aws_alb.alb_dns_name
+module "aws_cloudfrount" {
+  source       = "./modules/cloudfront"
+  project      = var.project
+  env          = var.env
+  alb_dns_name = module.aws_alb.alb_dns_name
 
-#   depends_on = [module.aws_ecs]
-# }
+  depends_on = [module.aws_ecs]
+}
