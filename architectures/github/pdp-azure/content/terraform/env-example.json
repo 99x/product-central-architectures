@@ -1,0 +1,14 @@
+{
+  "project": "your_project_name",
+  "orgName": "your_organization_name",
+  "appTitle": "your_app_name",
+  "githubToken": "your_github_token",
+  "githubClientId": "your_github_client_id",
+  "githubClientSecret": "your_github_client_secret",
+  "azureSubscriptionId": "your_azure_subscription_id",
+  "azureTenantId": "your_azure_tenant_id",
+  "azureClientId": "your_azure_client_id",
+  "azureClientSecret": "your_azure_client_secret",
+  "env": "your_environment",
+  "region": "your_region"
+}

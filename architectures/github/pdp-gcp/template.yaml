@@ -1,0 +1,174 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: pdp-gcp
+  title: Deploy ProductCentral to GCP
+  description: A template to deploy Product Central App to your own GCP infrastructure
+  backstage.io/techdocs-ref: dir:./content
+  tags:
+    - gcp
+    - deployment
+    - productcentral
+    - terraform
+  links:
+    - url: https://github.com/99x/product-central-architectures
+      title: 99x Product Central Architectures
+      icon: dashboard
+
+spec:
+  owner: user:99xadmin
+  type: service
+
+  parameters:
+    - title: Provide information about the component
+      required:
+        - name
+        - repoUrl
+      properties:
+        name:
+          title: Name
+          type: string
+          description: Unique name of the component
+          ui:autofocus: true
+          ui:options:
+            rows: 5
+        repoUrl:
+          title: Repository Location
+          type: string
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+    - title: Provide information about the deployment environment and credentials
+      required:
+        - project
+        - orgName
+        - appTitle
+        - env
+        - githubToken
+        - githubClientId
+        - githubClientSecret
+        - gcpCredentials
+        - region
+        - action
+      properties:
+        project:
+          title: Project
+          type: string
+          description: GCP project ID
+        orgName:
+          title: Organization Name
+          type: string
+          description: The name of the organization
+        appTitle:
+          title: App Title
+          type: string
+          description: The title of the app
+        env:
+          title: Environment
+          type: string
+          description: Choose the environment to deploy to
+          enum:
+            - dev
+            - demo
+            - prod
+        githubToken:
+          title: GitHub Personal Access Token
+          type: string
+          description: The personal access token for your GitHub account
+          ui:widget: password
+        githubClientId:
+          title: GitHub OAuth Client ID
+          type: string
+          description: The client ID for your GitHub OAuth app
+          ui:widget: password
+        githubClientSecret:
+          title: GitHub OAuth Client Secret
+          type: string
+          description: The client secret for your GitHub OAuth app
+          ui:widget: password
+        gcpCredentials:
+          title: GCP Service Account Credentials
+          type: string
+          description: The service account credentials for your GCP account in Base64 format. You can get this by running "cat <path-to-your-service-account-key>.json | base64" in your terminal and pasting the output here.
+          ui:widget: password
+        region:
+          title: GCP Region
+          type: string
+          description: The region to deploy to in your GCP account
+          enum:
+            - asia-southeast1
+            - asia-southeast2
+            - asia-south1
+            - asia-east1
+            - asia-northeast1
+            - asia-northeast2
+            - us-west1
+            - us-west2
+            - europe-west1
+            - europe-west2
+          default: asia-southeast1
+        action:
+          title: action
+          type: string
+          description: What terraform action do you want to perform?
+          enum:
+            - apply
+            - destroy
+          default: apply
+
+  # These steps are executed in the scaffolder backend, using data that we gathered
+  # via the parameters above.
+  steps:
+    # Each step executes an action, in this case one templates files into the working directory.
+    - id: fetch-base
+      name: Fetch Base
+      action: fetch:template
+      input:
+        url: ./content
+        copyWithoutTemplating:
+          - "**/.github/**"
+          - "./**/.github/**"
+        values:
+          name: ${{ parameters.name }}
+          slug: ${{ parameters.repoUrl | projectSlug }}
+
+    # This step publishes the contents of the working directory to GitHub.
+    - id: publish
+      name: Publish
+      action: publish:github
+      input:
+        allowedHosts: ["github.com"]
+        description: This is ${{ parameters.name }}
+        repoUrl: ${{ parameters.repoUrl }}
+        repoVisibility: private
+        defaultBranch: main
+        gitAuthorName: 99xproductcentral
+        gitAuthorEmail: productcentral@99x.io
+
+    - id: github-action
+      name: Trigger GitHub Action
+      action: github:actions:dispatch
+      input:
+        workflowId: "deploy.yaml" # GitHub Action workflow ID
+        repoUrl: ${{ parameters.repoUrl }}
+        branchOrTagName: "main" # The branch to run this action on
+        workflowInputs:
+          parameters: ${{ parameters | dump }} # Pass all parameters to the GitHub Action (stringified JSON)
+
+    # The final step is to register our new component in the catalog.
+    - id: register
+      name: Register
+      action: catalog:register
+      input:
+        repoContentsUrl: ${{ steps['publish'].output.repoContentsUrl }}
+        catalogInfoPath: "/catalog-info.yaml"
+
+  # Outputs are displayed to the user after a successful execution of the template.
+  output:
+    links:
+      - title: Repository
+        url: ${{ steps['publish'].output.remoteUrl }}
+      - title: Open in catalog
+        icon: catalog
+        entityRef: ${{ steps['register'].output.entityRef }}
