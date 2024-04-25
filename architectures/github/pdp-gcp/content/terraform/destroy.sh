@@ -22,14 +22,14 @@ for var in GCP_PROJECT_ID ORG_NAME APP_TITLE GITHUB_TOKEN GITHUB_CLIENT_ID GITHU
 done
 
 terraform destroy -auto-approve \
-  -var "project=$PROJECT_NAME" \
+  -var "project=$GCP_PROJECT_ID" \
   -var "organization_name=$ORG_NAME" \
   -var "app_title=$APP_TITLE" \
   -var "github_token=$GITHUB_TOKEN" \
   -var "github_client_id=$GITHUB_CLIENT_ID" \
   -var "github_client_secret=$GITHUB_CLIENT_SECRET" \
-  -var "secret_access_key=$GCP_CREDENTIALS" \
+  -var "gcp_credentials_base64=$GCP_CREDENTIALS" \
   -var "env=$ENV" \
-  -var "default_region=$REGION"
+  -var "region=$REGION"
 
 echo "Terraform destroy completed!"
