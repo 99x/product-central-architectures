@@ -11,7 +11,7 @@ The specific AWS services used will depend on the chosen deployment configuratio
 * Amazon VPC - To create a virtual private cloud for secure network isolation.
 * Amazon IAM -  To manage user access and permissions.
 * AWS SSM Parameter Store - To store secrets and environments.
-* Amazon CloudFront (TBC) - For content delivery network (CDN) functionalities.
+* Amazon CloudFront - For content delivery network (CDN) functionalities.
 
 
 **Important Note:**
