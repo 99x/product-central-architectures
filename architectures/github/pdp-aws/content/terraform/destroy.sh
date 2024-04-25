@@ -2,6 +2,8 @@
 
 set -eo pipefail
 
+PARAMETERS_JSON=$1
+
 PROJECT_NAME=$(echo $PARAMETERS_JSON | jq -r '.project')
 ORG_NAME=$(echo $PARAMETERS_JSON | jq -r '.orgName')
 APP_NAME=$(echo $PARAMETERS_JSON | jq -r '.appTitle')
@@ -22,7 +24,7 @@ done
 
 terraform destroy -auto-approve \
   -var "project=$PROJECT_NAME" \
-  -var "org_name=$ORG_NAME" \
+  -var "organization_name=$ORG_NAME" \
   -var "app_title=$APP_NAME" \
   -var "github_token=$GITHUB_TOKEN" \
   -var "github_client_id=$GITHUB_CLIENT_ID" \
@@ -30,6 +32,6 @@ terraform destroy -auto-approve \
   -var "access_key_id=$AWS_ACCESS_KEY_ID" \
   -var "secret_access_key=$AWS_SECRET_ACCESS_KEY" \
   -var "env=$ENV" \
-  -var "region=$REGION"
+  -var "default_region=$REGION"
 
 echo "Terraform destroy completed!"
