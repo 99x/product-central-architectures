@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       parameters:
-        description: 'Parameters for the workflow'
+        description: "Parameters for the workflow"
         required: true
 
 jobs:
@@ -19,7 +19,7 @@ jobs:
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: 1.5.7
+          terraform_version: "~> 1.5.7"
 
       - name: Deploy using Terraform
         run: |
@@ -38,7 +38,7 @@ jobs:
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: 1.5.7
+          terraform_version: "~> 1.5.7"
 
       - name: Destroy using Terraform
         run: |
