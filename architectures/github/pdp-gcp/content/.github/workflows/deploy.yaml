@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       parameters:
-        description: 'Parameters for the workflow'
+        description: "Parameters for the workflow"
         required: true
 jobs:
   deploy:
@@ -15,13 +15,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: 'Set up Cloud SDK'
-        uses: 'google-github-actions/setup-gcloud@v2'
+      - name: "Set up Cloud SDK"
+        uses: "google-github-actions/setup-gcloud@v2"
 
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: 1.5.7
+          terraform_version: "~> 1.5.7"
 
       - name: Deploy using Terraform
         run: |
@@ -40,7 +40,7 @@ jobs:
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: 1.5.7
+          terraform_version: "~> 1.5.7"
 
       - name: Destroy using Terraform
         run: |

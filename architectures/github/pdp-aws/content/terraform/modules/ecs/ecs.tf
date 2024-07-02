@@ -37,7 +37,7 @@ resource "aws_ecs_task_definition" "default_task" {
     logConfiguration = {
       logDriver = "awslogs"
       options : {
-        "awslogs-group" : "/ecs/${var.project}",
+        "awslogs-group" : aws_cloudwatch_log_group.default_log_group.name,
         "awslogs-region" : var.default_region,
         "awslogs-stream-prefix" : "ecs"
       }
