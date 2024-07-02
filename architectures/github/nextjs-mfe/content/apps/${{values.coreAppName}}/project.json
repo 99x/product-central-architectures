@@ -1,0 +1,72 @@
+{
+    "name": "${{values.coreAppName}}",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "apps/${{values.coreAppName}}",
+    "projectType": "application",
+    "targets": {
+        "build": {
+            "executor": "@nrwl/next:build",
+            "outputs": ["{options.outputPath}"],
+            "defaultConfiguration": "production",
+            "options": {
+                "root": "apps/${{values.coreAppName}}",
+                "outputPath": "dist/apps/${{values.coreAppName}}"
+            },
+            "configurations": {
+                "development": {
+                    "outputPath": "apps/${{values.coreAppName}}"
+                },
+                "production": {
+                    "generateLockfile": true
+                }
+            }
+        },
+        "serve": {
+            "executor": "@nrwl/next:server",
+            "defaultConfiguration": "development",
+            "options": {
+                "buildTarget": "${{values.coreAppName}}:build",
+                "dev": true,
+                "port": 3000
+            },
+            "configurations": {
+                "development": {
+                    "buildTarget": "${{values.coreAppName}}:build:development",
+                    "dev": true
+                },
+                "production": {
+                    "buildTarget": "${{values.coreAppName}}:build:production",
+                    "dev": false
+                }
+            }
+        },
+        "export": {
+            "executor": "@nrwl/next:export",
+            "options": {
+                "buildTarget": "${{values.coreAppName}}:build:production"
+            }
+        },
+        "test": {
+            "executor": "@nrwl/jest:jest",
+            "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+            "options": {
+                "jestConfig": "apps/${{values.coreAppName}}/jest.config.ts",
+                "passWithNoTests": true
+            },
+            "configurations": {
+                "ci": {
+                    "ci": true,
+                    "codeCoverage": true
+                }
+            }
+        },
+        "lint": {
+            "executor": "@nrwl/linter:eslint",
+            "outputs": ["{options.outputFile}"],
+            "options": {
+                "lintFilePatterns": ["apps/${{values.coreAppName}}/**/*.{ts,tsx,js,jsx}"]
+            }
+        }
+    },
+    "tags": []
+}

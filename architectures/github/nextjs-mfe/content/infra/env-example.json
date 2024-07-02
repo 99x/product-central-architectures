@@ -1,0 +1,8 @@
+{
+  "awsAccessKeyId": "<awsAccessKeyId>",
+  "awsSecretAccessKey": "<awsSecretAccessKey>",
+  "project": "<project>",
+  "awsRegion": "<awsRegion>",
+  "bucketName": "<bucketName>",
+  "environment": "<environment>"
+}
