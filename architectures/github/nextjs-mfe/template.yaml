@@ -34,6 +34,9 @@ spec:
           type: string
           description: Unique name of the component
           ui:autofocus: true
+          maxLength: 50
+          pattern: "^[a-zA-Z0-9-]*$"
+          ui:help: "Hint: Name should only contain alphanumeric characters and hyphens"
           ui:options:
             rows: 5
         repoUrl:
@@ -72,8 +75,10 @@ spec:
         project:
           title: Project
           type: string
-          description: Specify the project name using the format 'nextjs-mfe'.
-          default: nextjs-mfe
+          description: Specify the project name for AWS resources
+          maxLength: 50
+          pattern: "^[a-zA-Z0-9-]*$"
+          ui:help: "Hint: Name should only contain alphanumeric characters and hyphens"
         environment:
           title: Environment
           type: string
@@ -141,6 +146,10 @@ spec:
         defaultBranch: main
         gitAuthorName: 99xproductcentral
         gitAuthorEmail: productcentral@99x.io
+        secrets:
+          AWS_ACCESS_KEY_ID: ${{ parameters.awsAccessKeyId }}
+          AWS_SECRET_ACCESS_KEY: ${{ parameters.awsSecretAccessKey }}
+          AWS_REGION: ${{ parameters.awsRegion }}
 
     - id: github-action
       name: Provision Infrastructure
