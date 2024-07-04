@@ -4,6 +4,8 @@ metadata:
   name: nextjs-mfe
   title: AWS Next.js Micro-Frontend Application with NX and Module Federation
   description: Next.js Micro-Frontend Application with NX and Module Federation deployed in AWS
+  annotations:
+    backstage.io/adr-location: https://github.com/99x/product-central-architectures/tree/main/docs/decisions/nextjs-mfe
   tags:
     - aws
     - nextjs

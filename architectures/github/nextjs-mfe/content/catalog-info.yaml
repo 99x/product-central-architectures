@@ -4,7 +4,7 @@ metadata:
     name: ${{ values.name | dump }}
     annotations:
         github.com/project-slug: ${{ values.slug }}
-        backstage.io/techdocs-ref: ${{ values.slug }}
+        backstage.io/adr-location: https://github.com/99x/product-central-architectures/tree/main/docs/decisions/nextjs-mfe
     description: ${{ values.name }} is a micro-frontend application which is built using Next.js and served using Module Federation and NX tool deployed in AWS.
     tags:
         - aws
@@ -13,9 +13,9 @@ metadata:
         - nx
         - module-federation
     links:
-      - url: https://github.com/99x/product-central-architectures
-        title: 99x Product Central Architectures
-        icon: dashboard
+        - url: https://github.com/99x/product-central-architectures
+          title: 99x Product Central Architectures
+          icon: dashboard
 spec:
     type: service
     owner: user:99xadmin
