@@ -1,0 +1,28 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ${{ values.name | dump }}
+  annotations:
+    github.com/project-slug: ${{ values.slug }}
+    backstage.io/adr-location: https://github.com/99x/product-central-architectures/tree/main/architectures/docs/decisions/aws-fullstack-app
+  description: ${{ values.name }} is a full-stack application which is built using AWS services.
+  tags:
+    - aws
+    - full-stack
+    - nextjs
+    - nestjs
+    - micro-frontend
+    - nx
+    - module-federation
+    - server
+    - infrastructure
+    - reference-architecture
+  links:
+    - url: https://github.com/99x/product-central-architectures
+      title: 99x Product Central Architectures
+      icon: dashboard
+spec:
+  type: service
+  owner: user:99xadmin
+  lifecycle: production
+  system: productcentral

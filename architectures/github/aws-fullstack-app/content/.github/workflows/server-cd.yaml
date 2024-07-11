@@ -1,0 +1,93 @@
+name: Server CD
+on:
+  push:
+    paths:
+      - "server/**"
+    # TODO: add restrictions (Branch Protection Rule) to only allow pushes to this branch from PRs
+    branches:
+      - development
+      - staging
+      - release
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./server
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Log in to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build, tag, and push docker image to Amazon ECR
+        env:
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          case "${{ github.ref_name }}" in
+            development)
+              DOCKERFILE_NAME=Dockerfile.development
+              REPOSITORY_URI=${{ secrets.AWS_ECR_REPOSITORY_URI_DEVELOPMENT }}
+              ;;
+            staging)
+              DOCKERFILE_NAME=Dockerfile.staging
+              REPOSITORY_URI=${{ secrets.AWS_ECR_REPOSITORY_URI_STAGING }}
+              ;;
+            release)
+              DOCKERFILE_NAME=Dockerfile.production
+              REPOSITORY_URI=${{ secrets.AWS_ECR_REPOSITORY_URI_PRODUCTION }}
+              ;;
+          esac
+          docker build -t $REPOSITORY_URI:$IMAGE_TAG -f .dockerfiles/$DOCKERFILE_NAME .
+          docker push $REPOSITORY_URI:$IMAGE_TAG
+          echo "::set-output name=image::$REPOSITORY_URI:$IMAGE_TAG"
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./server
+
+    steps:
+      - name: Update ECS service
+        env:
+          IMAGE: ${{ steps.build.outputs.image }}
+        run: |
+          case "${{ github.ref_name }}" in
+            development)
+              CLUSTER_NAME=${{ secrets.ECS_CLUSTER_NAME_DEVELOPMENT }}
+              SERVICE_NAME=${{ secrets.ECS_SERVICE_NAME_DEVELOPMENT }}
+              TASK_FAMILY=${{ secrets.ECS_TASK_FAMILY_DEVELOPMENT }}
+              ;;
+            staging)
+              CLUSTER_NAME=${{ secrets.ECS_CLUSTER_NAME_STAGING }}
+              SERVICE_NAME=${{ secrets.ECS_SERVICE_NAME_STAGING }}
+              TASK_FAMILY=${{ secrets.ECS_TASK_FAMILY_STAGING }}
+              ;;
+            release)
+              CLUSTER_NAME=${{ secrets.ECS_CLUSTER_NAME_PRODUCTION }}
+              SERVICE_NAME=${{ secrets.ECS_SERVICE_NAME_PRODUCTION }}
+              TASK_FAMILY=${{ secrets.ECS_TASK_FAMILY_PRODUCTION }}
+              ;;
+          esac
+          TASK_DEFINITION=$(aws ecs describe-task-definition --task-definition $TASK_FAMILY)
+          NEW_TASK_DEFINITION=$(echo $TASK_DEFINITION | jq --arg IMAGE "$IMAGE" '.taskDefinition | .containerDefinitions[0].image=$IMAGE | .family=$TASK_FAMILY + "-updated" | del(.taskDefinitionArn, .revision, .status, .requiresAttributes, .compatibilities)')
+          NEW_TASK_DEFINITION_ARN=$(aws ecs register-task-definition --cli-input-json "$(echo $NEW_TASK_DEFINITION)" --query 'taskDefinition.taskDefinitionArn' --output text)
+          aws ecs update-service --cluster $CLUSTER_NAME --service $SERVICE_NAME --task-definition $NEW_TASK_DEFINITION_ARN
