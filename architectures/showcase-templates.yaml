@@ -25,4 +25,4 @@ spec:
     - https://github.com/99x/product-central-architectures/blob/main/architectures/github/pdp-aws/template.yaml
     - https://github.com/99x/product-central-architectures/blob/main/architectures/github/pdp-azure/template.yaml
     - https://github.com/99x/product-central-architectures/blob/main/architectures/github/pdp-gcp/template.yaml
-    - https://github.com/99x/product-central-architectures/blob/main/architectures/github/nextjs-mfe/template.yaml
+    - https://github.com/99x/product-central-architectures/blob/main/architectures/github/aws-fullstack-app/template.yaml

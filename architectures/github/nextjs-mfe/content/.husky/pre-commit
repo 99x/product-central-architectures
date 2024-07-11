@@ -1,5 +1,0 @@
-#!/bin/bash
-path=$(dirname "$0")
-. "$path/_/husky.sh"
-
-npx lint-staged || exit 1
