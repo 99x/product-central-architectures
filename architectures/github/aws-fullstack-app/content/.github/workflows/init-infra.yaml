@@ -1,0 +1,33 @@
+name: Setting Up Infrastructure for AWS Fullstack Application
+
+on:
+  workflow_dispatch:
+    inputs:
+      parameters:
+        description: "Parameters for the workflow"
+        required: true
+
+jobs:
+  provision:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "~> 1.5.7"
+
+      - name: Provisioning Client Infrastructure
+        run: |
+          set -eo pipefail
+          cd infra/client
+          ./apply.sh '${{ github.event.inputs.parameters }}'
+
+      - name: Provisioning Server Infrastructure
+        run: |
+          set -eo pipefail
+          cd infra/server
+          ./apply.sh '${{ github.event.inputs.parameters }}'
