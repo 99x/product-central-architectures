@@ -1,9 +1,0 @@
-{
-  "gcpProjectID": "<your-project-name>",
-  "gcpCredentials": "<base64-encoded-credentials>",
-  "region": "asia-southeast1",
-  "sonarqubeVersion": "community",
-  "sonarqubeDBUser": "sonarqube",
-  "sonarqubeDBPassword": "sonarqube",
-  "sonarqubeDBName": "sonarqube"
-}
