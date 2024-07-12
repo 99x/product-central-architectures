@@ -1,0 +1,9 @@
+version: '3.9'
+services:
+  app:
+    container_name: ${CONTAINER_NAME}
+    image: ${{values.serverAppName}}:latest
+    env_file:
+      - ${ENV_FILE}
+    ports:
+      - "3000:3000"

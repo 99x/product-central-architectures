@@ -1,0 +1,17 @@
+site_name: aws-fullstack-app
+site_description: "Product Central Architectures - AWS Fullstack App"
+repo_url: https://github.com/99x/product-central-architectures/tree/main/architectures/docs/techdocs/aws-fullstack-app
+edit_uri: edit/main/docs/techdocs/aws-fullstack-app
+
+plugins:
+  - techdocs-core
+
+nav:
+  - Application Architecture: index.md
+  - Design Philosophy:
+      - Introduction: design-philosophy/introduction.md
+      - Front End Architecture: design-philosophy/front-end-architecture.md
+      - BFF Architecture: design-philosophy/bff-architecture.md
+      - Repository Strategy:
+          - Organization of the source repository: design-philosophy/organization-of-the-source-repository.md
+          - Folder Structure: design-philosophy/folder-structure.md

@@ -1,2 +1,11 @@
 **/.terraform/*
 .terraform*
+terraform.tfstate
+terraform.tfvars
+terraform/terraform.tfvars
+.terraform.lock.hcl
+.terraform
+*.backup
+*.tfvars
+*.tfvars.json
+env.json
