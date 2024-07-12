@@ -1,1 +1,1 @@
-# ADRs for Product Central Refernce Architecture Templates
+# ADRs and TechDocs for Product Central Refernce Architecture Templates
