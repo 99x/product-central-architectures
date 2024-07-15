@@ -1,6 +1,6 @@
 ---
 parent: Decisions
-nav_order: 0
+nav_order: 1
 status: accepted
 date: 2024-07-01
 consulted: 99x Tech Leads
