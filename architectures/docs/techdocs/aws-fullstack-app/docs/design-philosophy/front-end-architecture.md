@@ -1,5 +1,5 @@
 ## Front End Architecture
-![](./img/architecture_diagrams-frontend.drawio.png)
+![](../img/architecture_diagrams-frontend.drawio.png)
 
 ### Use of common libraries
 One of the key concepts behind the new architecture is that the frontend contains a common UI library which is used across all the MFEs implemented inside the FSP. 

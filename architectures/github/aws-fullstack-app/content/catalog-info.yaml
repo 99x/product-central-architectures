@@ -5,6 +5,7 @@ metadata:
   annotations:
     github.com/project-slug: ${{ values.slug }}
     backstage.io/adr-location: https://github.com/99x/product-central-architectures/tree/main/architectures/docs/decisions/aws-fullstack-app
+    backstage.io/techdocs-ref: url:https://github.com/99x/product-central-architectures/tree/main/architectures/docs/techdocs/aws-fullstack-app
   description: ${{ values.name }} is a full-stack application which is built using AWS services.
   tags:
     - aws

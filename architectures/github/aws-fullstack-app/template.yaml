@@ -6,6 +6,7 @@ metadata:
   description: Fullstack App deployed in AWS
   annotations:
     backstage.io/adr-location: https://github.com/99x/product-central-architectures/tree/main/architectures/docs/decisions/aws-fullstack-app
+    backstage.io/techdocs-ref: url:https://github.com/99x/product-central-architectures/tree/main/architectures/docs/techdocs/aws-fullstack-app
   tags:
     - aws
     - full-stack
