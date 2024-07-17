@@ -33,8 +33,6 @@ spec:
         - name
         - repoUrl
         - description
-        - coreAppName
-        - remoteAppName
       properties:
         name:
           title: Name
