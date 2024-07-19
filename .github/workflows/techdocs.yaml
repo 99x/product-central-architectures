@@ -52,7 +52,7 @@ jobs:
 
       - name: Generate and Publish docs site
         run: |
-          for dir in docs/techdocs/*/ ; do
+          for dir in architectures/docs/techdocs/*/ ; do
             ENTITY_NAME=$(basename "$dir")
             echo "Generating docs for $ENTITY_NAME"
             cd "$dir"
