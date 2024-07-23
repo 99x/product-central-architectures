@@ -7,6 +7,10 @@ on:
         description: "Parameters for the workflow"
         required: true
 
+permissions:
+  actions: read
+  contents: read
+
 jobs:
   provision:
     runs-on: ubuntu-latest
