@@ -118,12 +118,12 @@ spec:
           title: AWS Access Key ID
           type: string
           description: The AWS access key ID to access the AWS resources
-          ui:widget: password
+          ui:field: Secret
         awsSecretAccessKey:
           title: AWS Secret Access Key
           type: string
           description: The AWS secret access key to access the AWS resources
-          ui:widget: password
+          ui:field: Secret
         awsRegion:
           title: Default Region
           type: string
