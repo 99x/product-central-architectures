@@ -6,9 +6,6 @@ on:
       - main
     paths:
       - "architectures/docs/techdocs/**"
-  # Run Daily at 10:00 UTC time
-  schedule:
-    - cron: "0 10 * * *"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -25,7 +22,7 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_REGION: ${{ secrets.AWS_REGION }}
       ENTITY_NAMESPACE: "default"
-      ENTITY_KIND: "Component"
+      ENTITY_KIND: "Template"
 
     steps:
       - name: Checkout code
