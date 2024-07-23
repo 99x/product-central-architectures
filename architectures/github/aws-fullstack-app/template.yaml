@@ -182,7 +182,7 @@ spec:
       name: Provision Infrastructure
       action: github:actions:dispatch
       input:
-        workflowId: "infra.yaml"
+        workflowId: "init-infra.yaml"
         repoUrl: ${{ parameters.repoUrl }}
         branchOrTagName: "main"
         workflowInputs:
