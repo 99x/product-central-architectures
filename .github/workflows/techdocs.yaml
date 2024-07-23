@@ -22,7 +22,8 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_REGION: ${{ secrets.AWS_REGION }}
       ENTITY_NAMESPACE: "default"
-      ENTITY_KIND: "Template"
+      ENTITY_TEMPLATE: "Template"
+      ENTITY_COMPONENT: "Component"
 
     steps:
       - name: Checkout code
@@ -55,6 +56,7 @@ jobs:
             cd "$dir"
             techdocs-cli generate --no-docker --output-dir "site" --verbose
             cd -  # Return to the previous directory
-            echo "Publishing docs for $ENTITY_NAME"
-            techdocs-cli publish --publisher-type awsS3 --storage-name $TECHDOCS_S3_BUCKET_NAME --entity $ENTITY_NAMESPACE/$ENTITY_KIND/$ENTITY_NAME --directory "$dir/site"
+            echo "Publishing docs for $ENTITY_NAME to $ENTITY_TEMPLATE and $ENTITY_COMPONENT buckets"
+            techdocs-cli publish --publisher-type awsS3 --storage-name $TECHDOCS_S3_BUCKET_NAME --entity $ENTITY_NAMESPACE/$ENTITY_TEMPLATE/$ENTITY_NAME --directory "$dir/site"
+            techdocs-cli publish --publisher-type awsS3 --storage-name $TECHDOCS_S3_BUCKET_NAME --entity $ENTITY_NAMESPACE/$ENTITY_COMPONENT/$ENTITY_NAME --directory "$dir/site"
           done
