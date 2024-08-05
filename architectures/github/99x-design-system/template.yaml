@@ -8,6 +8,7 @@ metadata:
     backstage.io/adr-location: https://github.com/99x/product-central-architectures/tree/main/architectures/docs/decisions/99x-design-system
     backstage.io/techdocs-ref: url:https://github.com/99x/product-central-architectures/tree/main/architectures/docs/techdocs/99x-design-system
   tags:
+    - antd
     - design-system
     - react
     - vite
