@@ -1,0 +1,24 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ${{ values.name | dump }}
+  annotations:
+    github.com/project-slug: ${{ values.slug }}
+    backstage.io/adr-location: https://github.com/99x/product-central-architectures/tree/main/architectures/docs/decisions/99x-design-system
+    backstage.io/techdocs-ref: url:https://github.com/99x/product-central-architectures/tree/main/architectures/docs/techdocs/99x-design-system
+  description: ${{ values.name }} is a 99x's design system built using React and Vite.
+  tags:
+    - design-system
+    - react
+    - vite
+    - storybook
+    - reference-architecture
+  links:
+    - url: https://github.com/99x/product-central-architectures
+      title: 99x Product Central Architectures
+      icon: dashboard
+spec:
+  type: service
+  owner: user:99xadmin
+  lifecycle: production
+  system: productcentral
