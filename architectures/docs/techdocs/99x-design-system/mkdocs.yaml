@@ -1,0 +1,10 @@
+site_name: 99x-design-system
+site_description: "Product Central Architectures - 99x Design System"
+repo_url: https://github.com/99x/product-central-architectures/tree/main/architectures/docs/techdocs/99x-design-system
+edit_uri: edit/main/docs/techdocs/99x-design-system
+
+plugins:
+  - techdocs-core
+
+nav:
+  - Documentation: index.md

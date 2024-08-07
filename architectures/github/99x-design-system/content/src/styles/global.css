@@ -1,0 +1,147 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .ant-btn-primary {
+    @apply bg-primary dark:bg-primary-dark-default;
+  }
+  .theme-bg--primary {
+    @apply bg-primary dark:bg-primary-dark-default;
+  }
+  .theme-bg--secondary {
+    @apply bg-secondary dark:bg-secondary-dark-default;
+  }
+  .theme-bg--accent {
+    @apply bg-accent dark:bg-accent-dark-default;
+  }
+  .theme-bg--neutral {
+    @apply bg-neutral dark:bg-neutral-dark-default;
+  }
+  .theme-bg--success {
+    @apply bg-success dark:bg-success-dark-default;
+  }
+  .theme-bg--warning {
+    @apply bg-warning dark:bg-warning-dark-default;
+  }
+  .theme-bg--danger {
+    @apply bg-danger dark:bg-danger-dark-default;
+  }
+  .theme-bg-hover--primary {
+    @apply hover:!bg-primary-light dark:hover:!bg-primary-dark-light;
+  }
+  .theme-bg-hover--secondary {
+    @apply hover:!bg-secondary-light dark:hover:!bg-secondary-dark-light;
+  }
+  .theme-bg-hover--accent {
+    @apply hover:!bg-accent-light dark:hover:!bg-accent-dark-light;
+  }
+  .theme-bg-hover--neutral {
+    @apply hover:!bg-neutral-light dark:hover:!bg-neutral-dark-light;
+  }
+  .theme-bg-hover--success {
+    @apply hover:!bg-success-light dark:hover:!bg-success-dark-light;
+  }
+  .theme-bg-hover--warning {
+    @apply hover:!bg-warning-light dark:hover:!bg-warning-dark-light;
+  }
+  .theme-bg-hover--danger {
+    @apply hover:!bg-danger-light dark:hover:!bg-danger-dark-light;
+  }
+  .theme-border--primary {
+    @apply border-primary hover:border-primary-light dark:border-primary-dark-default;
+  }
+  .theme-border--secondary {
+    @apply border-secondary hover:border-secondary-light dark:border-secondary-dark-default;
+  }
+  .theme-border--accent {
+    @apply border-accent hover:border-accent-light dark:border-accent-dark-default;
+  }
+  .theme-border--neutral {
+    @apply border-neutral hover:border-neutral-light dark:border-neutral-dark-default;
+  }
+  .theme-border--success {
+    @apply border-success hover:border-success-light dark:border-success-dark-default;
+  }
+  .theme-border--warning {
+    @apply border-warning hover:border-warning-light dark:border-warning-dark-default;
+  }
+  .theme-border--danger {
+    @apply border-danger hover:border-danger-light dark:border-danger-dark-default;
+  }
+  .theme-border-hover--primary {
+    @apply hover:!border-primary-light dark:hover:!border-primary-dark-light;
+  }
+  .theme-border-hover--secondary {
+    @apply hover:!border-secondary-light dark:hover:!border-secondary-dark-light;
+  }
+  .theme-border-hover--accent {
+    @apply hover:!border-accent-light dark:hover:!border-accent-dark-light;
+  }
+  .theme-border-hover--neutral {
+    @apply hover:!border-neutral-light dark:hover:!border-neutral-dark-light;
+  }
+  .theme-border-hover--success {
+    @apply hover:!border-success-light dark:hover:!border-success-dark-light;
+  }
+  .theme-border-hover--warning {
+    @apply hover:!border-warning-light dark:hover:!border-warning-dark-light;
+  }
+  .theme-border-hover--danger {
+    @apply hover:!border-danger-light dark:hover:!border-danger-dark-light;
+  }
+  .theme-text--white {
+    @apply text-white dark:text-black;
+  }
+  .theme-text--base {
+    @apply !text-black dark:!text-white;
+  }
+  .theme-text--primary {
+    @apply text-primary dark:text-primary-dark-default;
+  }
+  .theme-text--secondary {
+    @apply text-secondary dark:text-secondary-dark-default;
+  }
+  .theme-text--accent {
+    @apply text-accent dark:text-accent-dark-default;
+  }
+  .theme-text--neutral {
+    @apply text-neutral dark:text-neutral-dark-default;
+  }
+  .theme-text--success {
+    @apply text-success dark:text-success-dark-default;
+  }
+  .theme-text--warning {
+    @apply text-warning dark:text-warning-dark-default;
+  }
+  .theme-text--danger {
+    @apply text-danger dark:text-danger-dark-default;
+  }
+  .theme-text-hover--primary {
+    @apply hover:!text-primary-light dark:hover:!text-primary-dark-light;
+  }
+  .theme-text-hover--secondary {
+    @apply hover:!text-secondary-light dark:hover:!text-secondary-dark-light;
+  }
+  .theme-text-hover--accent {
+    @apply hover:!text-accent-light dark:hover:!text-accent-dark-light;
+  }
+  .theme-text-hover--neutral {
+    @apply hover:!text-neutral-light dark:hover:!text-neutral-dark-light;
+  }
+  .theme-text-hover--success {
+    @apply hover:!text-success-light dark:hover:!text-success-dark-light;
+  }
+  .theme-text-hover--warning {
+    @apply hover:!text-warning-light dark:hover:!text-warning-dark-light;
+  }
+  .theme-text-hover--danger {
+    @apply hover:!text-danger-light dark:hover:!text-danger-dark-light;
+  }
+  html, body.sb-main-padded,#storybook-root {
+    height: 100%;
+  }
+}
+.ant-layout-sider-children{
+    @apply overflow-y-auto
+}

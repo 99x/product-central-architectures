@@ -1,0 +1,93 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: 99x-design-system
+  title: 99x Design System
+  description: Design System built using React and Vite
+  annotations:
+    backstage.io/adr-location: https://github.com/99x/product-central-architectures/tree/main/architectures/docs/decisions/99x-design-system
+    backstage.io/techdocs-ref: url:https://github.com/99x/product-central-architectures/tree/main/architectures/docs/techdocs/99x-design-system
+  tags:
+    - antd
+    - design-system
+    - react
+    - vite
+    - storybook
+    - reference-architecture
+  links:
+    - url: https://github.com/99x/product-central-architectures
+      title: 99x Product Central Architectures
+      icon: dashboard
+
+spec:
+  owner: user:99xadmin
+  type: service
+
+  parameters:
+    - title: Provide information about the component
+      required:
+        - name
+        - repoUrl
+        - description
+      properties:
+        name:
+          title: Name
+          type: string
+          description: Unique name of the component
+          ui:autofocus: true
+          maxLength: 50
+          pattern: "^[a-zA-Z0-9-]*$"
+          ui:help: "Hint: Name should only contain alphanumeric characters and hyphens"
+          ui:options:
+            rows: 5
+        repoUrl:
+          title: Repository Location
+          type: string
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+        description:
+          title: Description
+          type: string
+          description: A brief description of the component and its purpose
+          ui:options:
+            rows: 5
+
+  steps:
+    - id: fetch-base
+      name: Fetch Base
+      action: fetch:template
+      input:
+        url: ./content
+        values:
+          name: ${{ parameters.name }}
+          slug: ${{ parameters.repoUrl | projectSlug }}
+          description: ${{ parameters.description }}
+
+    - id: publish
+      name: Publish
+      action: publish:github
+      input:
+        allowedHosts: ["github.com"]
+        description: ${{ parameters.description }}
+        repoUrl: ${{ parameters.repoUrl }}
+        repoVisibility: private
+        defaultBranch: main
+        gitAuthorName: 99xproductcentral
+        gitAuthorEmail: productcentral@99x.io
+
+    - id: register
+      name: Register
+      action: catalog:register
+      input:
+        repoContentsUrl: ${{ steps['publish'].output.repoContentsUrl }}
+        catalogInfoPath: "/catalog-info.yaml"
+
+  output:
+    links:
+      - title: Repository
+        url: ${{ steps['publish'].output.remoteUrl }}
+      - title: Open in catalog
+        icon: catalog
+        entityRef: ${{ steps['register'].output.entityRef }}
