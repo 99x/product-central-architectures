@@ -1,6 +1,6 @@
 ---
 parent: Decisions
-nav_order: 0
+nav_order: 1
 status: accepted
 date: 2024-07-01
 consulted: 99x Tech Leads
@@ -8,15 +8,15 @@ informed: Adri, Rishard, Rasika, Sachith
 ---
 
 
-## Tools and Technologies
+# Tools and Technologies
 
-### Development Tools
+## Development Tools
 
 - **React:** Enables the creation of reusable UI components.
 - **Vite:** Provides a fast and efficient development environment with hot module replacement.
 - **Storybook:** Facilitates the development and testing of UI components in isolation.
 
-### Performance Optimization
+## Performance Optimization
 
 1. **Selective Imports:**
     - Import only the necessary components and styles from Ant Design.
