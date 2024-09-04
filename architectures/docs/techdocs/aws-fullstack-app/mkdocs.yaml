@@ -1,6 +1,6 @@
 site_name: aws-fullstack-app
 site_description: "Product Central Architectures - AWS Fullstack App"
-repo_url: https://github.com/99x/product-central-architectures/tree/main/architectures/docs/techdocs/aws-fullstack-app
+repo_url: https://github.com/99x/product-central-architectures/tree/development/architectures/docs/techdocs/aws-fullstack-app
 edit_uri: edit/main/docs/techdocs/aws-fullstack-app
 
 plugins:
