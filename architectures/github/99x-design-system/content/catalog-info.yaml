@@ -4,8 +4,8 @@ metadata:
   name: ${{ values.name | dump }}
   annotations:
     github.com/project-slug: ${{ values.slug }}
-    backstage.io/adr-location: https://github.com/99x/product-central-architectures/tree/main/architectures/docs/decisions/99x-design-system
-    backstage.io/techdocs-ref: url:https://github.com/99x/product-central-architectures/tree/main/architectures/docs/techdocs/99x-design-system
+    backstage.io/adr-location: https://github.com/99x/product-central-architectures/tree/development/architectures/docs/decisions/99x-design-system
+    backstage.io/techdocs-ref: url:https://github.com/99x/product-central-architectures/tree/development/architectures/docs/techdocs/99x-design-system
   description: ${{ values.name }} is a 99x's design system built using React and Vite.
   tags:
     - antd
