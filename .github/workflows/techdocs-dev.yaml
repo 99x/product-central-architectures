@@ -1,0 +1,62 @@
+name: Publish Product Central Dev TechDocs
+
+on:
+  push:
+    branches:
+      - development
+    paths:
+      - "architectures/docs/techdocs/**"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  publish-product-central-techdocs:
+    name: Publish Product Central TechDocs
+    runs-on: ubuntu-latest
+
+    env:
+      TECHDOCS_S3_BUCKET_NAME: ${{ secrets.AWS_BUCKET_NAME }}-dev
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+      ENTITY_NAMESPACE: "default"
+      ENTITY_TEMPLATE: "Template"
+      ENTITY_COMPONENT: "Component"
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+
+      - name: Setup local Turbo cache
+        uses: dtinth/setup-github-actions-caching-for-turbo@v1
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.9"
+
+      - name: Install techdocs-cli
+        run: sudo npm install -g @techdocs/cli
+
+      - name: Install mkdocs and mkdocs plugins
+        run: python -m pip install mkdocs-techdocs-core==1.*
+
+      - name: Generate and Publish docs site
+        run: |
+          for dir in architectures/docs/techdocs/*/ ; do
+            ENTITY_NAME=$(basename "$dir")
+            echo "Generating docs for $ENTITY_NAME"
+            cd "$dir"
+            techdocs-cli generate --no-docker --output-dir "site" --verbose
+            cd -  # Return to the previous directory
+            echo "Publishing docs for $ENTITY_NAME to $ENTITY_TEMPLATE and $ENTITY_COMPONENT buckets"
+            techdocs-cli publish --publisher-type awsS3 --storage-name $TECHDOCS_S3_BUCKET_NAME --entity $ENTITY_NAMESPACE/$ENTITY_TEMPLATE/$ENTITY_NAME --directory "$dir/site"
+            techdocs-cli publish --publisher-type awsS3 --storage-name $TECHDOCS_S3_BUCKET_NAME --entity $ENTITY_NAMESPACE/$ENTITY_COMPONENT/$ENTITY_NAME --directory "$dir/site"
+          done
