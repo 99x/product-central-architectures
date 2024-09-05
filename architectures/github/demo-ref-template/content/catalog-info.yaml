@@ -1,0 +1,24 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ${{ values.name | dump }}
+  annotations:
+    github.com/project-slug: ${{ values.slug }}
+    backstage.io/adr-location: https://github.com/99x/product-central-architectures/tree/development/architectures/docs/decisions/demo-ref-template
+    backstage.io/techdocs-ref: url:https://github.com/99x/product-central-architectures/tree/development/architectures/docs/techdocs/demo-ref-template
+  description: ${{ values.name }} is a template to deploy a demo reference template
+  tags:
+    - demo
+    - go
+    - mongo
+    - kubernetes
+    - reference-architecture
+  links:
+    - url: https://github.com/99x/product-central-architectures
+      title: 99x Product Central Architectures
+      icon: dashboard
+spec:
+  type: service
+  owner: user:Adri99x
+  lifecycle: production
+  system: productcentral

@@ -1,0 +1,133 @@
+services:
+  proxy:
+    image: traefik:v2.4.2
+    command:
+      # - "--log.level=DEBUG"
+      - "--api=true"
+      - "--api.dashboard=true"
+      - "--api.insecure=true" # Don't do that in production
+      - "--providers.docker"
+      - "--entrypoints.web.address=:80"
+      # add pilot token service
+      # - "--pilot.token=3d1bd97f-cb9d-4cde-8112-77ce2f5abc92"
+      # install plugin rewrite body
+      # - "--experimental.plugins.plugin-rewrite.modulename=github.com/traefik/plugin-rewritebody"
+      # - "--experimental.plugins.plugin-rewrite.version=v0.3.1"
+    labels: {}
+      # Create basics middlewares
+      # - "traefik.http.middlewares.my-auth.basicauth.users=test:$$apr1$$H6uskkkW$$IgXLP6ewTrSuBkTrqE8wj/"
+      # - "traefik.http.middlewares.my-compress.compress=true"
+      # - "traefik.http.middlewares.my-header.headers.customresponseheaders.X-Custom-Response-Header=cinema"
+      # Create middlewares for plugins
+      # - "traefik.http.middlewares.my-rewrite.plugin.plugin-rewrite.lastModified=true"
+      # - "traefik.http.middlewares.my-rewrite.plugin.plugin-rewrite.rewrites[0].regex=ID"
+      # - "traefik.http.middlewares.my-rewrite.plugin.plugin-rewrite.rewrites[0].replacement=MY-ID"
+    volumes:
+      - type: bind
+        source: /var/run/docker.sock
+        target: /var/run/docker.sock
+        read_only: true
+    ports:
+      - target: 80
+        published: 80
+        protocol: tcp
+        mode: host
+      - target: 8080
+        published: 8080
+        protocol: tcp
+        mode: host
+
+  website:
+    # build: ./website
+    image: ghcr.io/99x-product-central-dev/cinema-website:v2.2.2
+    command:
+      - "-usersAPI"
+      - "http://users:4000/api/users/"
+      - "-moviesAPI"
+      - "http://movies:4000/api/movies/"
+      - "-showtimesAPI"
+      - "http://showtimes:4000/api/showtimes/"
+      - "-bookingsAPI"
+      - "http://bookings:4000/api/bookings/"
+    labels:
+      # Enable public access
+      - "traefik.http.routers.website.rule=PathPrefix(`/`)"
+      - "traefik.http.services.website.loadbalancer.server.port=8000"
+
+  movies:
+    # build: ./movies
+    image: ghcr.io/99x-product-central-dev/cinema-movies:v2.2.2
+    command:
+      - "-mongoURI"
+      - "mongodb://db:27017/"
+    #   - "-enableCredentials"
+    #   - "true"
+    # environment:
+    #   MONGODB_USERNAME: "demo"
+    #   MONGODB_PASSWORD: "e3LBVTPdlzxYbxt9"
+    labels: {}
+      # Enable public access
+      # - "traefik.http.routers.movies.rule=PathPrefix(`/api/movies/`)"
+      # - "traefik.http.services.movies.loadbalancer.server.port=4000"
+      # Apply middlewares
+      # - "traefik.http.routers.movies.middlewares=my-header,my-compress"
+
+  bookings:
+    # build: ./bookings
+    image: ghcr.io/99x-product-central-dev/cinema-bookings:v2.2.2
+    command:
+      - "-mongoURI"
+      - "mongodb://db:27017/"
+    #   - "-enableCredentials"
+    #   - "true"
+    # environment:
+    #   MONGODB_USERNAME: "demo"
+    #   MONGODB_PASSWORD: "e3LBVTPdlzxYbxt9"
+    labels: {}
+      # Enable public access
+      # - "traefik.http.routers.bookings.rule=PathPrefix(`/api/bookings/`)"
+      # - "traefik.http.services.bookings.loadbalancer.server.port=4000"
+
+  showtimes:
+    # build: ./showtimes
+    image: ghcr.io/99x-product-central-dev/cinema-showtimes:v2.2.2
+    command:
+      - "-mongoURI"
+      - "mongodb://db:27017/"
+    #   - "-enableCredentials"
+    #   - "true"
+    # environment:
+    #   MONGODB_USERNAME: "demo"
+    #   MONGODB_PASSWORD: "e3LBVTPdlzxYbxt9"
+    labels: {}
+      # Enable public access
+      # - "traefik.http.routers.showtimes.rule=PathPrefix(`/api/showtimes/`)"
+      # - "traefik.http.services.showtimes.loadbalancer.server.port=4000"
+
+  users:
+    # build: ./users
+    image: ghcr.io/99x-product-central-dev/cinema-users:v2.2.2
+    command:
+      - "-mongoURI"
+      - "mongodb://db:27017/"
+    #   - "-enableCredentials"
+    #   - "true"
+    # environment:
+    #   MONGODB_USERNAME: "demo"
+    #   MONGODB_PASSWORD: "e3LBVTPdlzxYbxt9"
+    labels: {}
+      # Enable public access
+      # - "traefik.http.routers.users.rule=PathPrefix(`/api/users/`)"
+      # - "traefik.http.services.users.loadbalancer.server.port=4000"
+
+  db:
+    image: mongo:4.2.23
+    # ports:
+    #   - target: 27017
+    #     published: 27017
+    #     protocol: tcp
+    #     mode: host
+    volumes:
+      - type: bind
+        source: ./backup
+        target: /backup

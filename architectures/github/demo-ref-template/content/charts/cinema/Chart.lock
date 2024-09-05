@@ -1,0 +1,21 @@
+dependencies:
+- name: mongodb
+  repository: https://charts.bitnami.com/bitnami
+  version: 13.6.8
+- name: users
+  repository: ""
+  version: 0.x.x
+- name: movies
+  repository: ""
+  version: 0.x.x
+- name: showtimes
+  repository: ""
+  version: 0.x.x
+- name: bookings
+  repository: ""
+  version: 0.x.x
+- name: website
+  repository: ""
+  version: 0.x.x
+digest: sha256:ef3956ed765acfc22170d65610b3aede92a799e52fcb373ed771055f1c7a0b53
+generated: "2023-04-26T00:35:55.68291+02:00"

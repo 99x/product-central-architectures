@@ -1,0 +1,144 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: demo-ref-template
+  title: Demo Reference Template
+  description: A template to deploy a demo reference template
+  annotations:
+    backstage.io/adr-location: https://github.com/99x/product-central-architectures/tree/development/architectures/docs/decisions/demo-ref-template
+    backstage.io/techdocs-ref: url:https://github.com/99x/product-central-architectures/tree/development/architectures/docs/techdocs/demo-ref-template
+  tags:
+    - demo
+    - go
+    - mongo
+    - kubernetes
+    - reference-architecture
+  links:
+    - url: https://github.com/99x/product-central-architectures
+      title: 99x Product Central Architectures
+      icon: dashboard
+
+spec:
+  owner: user:99xadmin
+  type: service
+
+  parameters:
+    - title: Provide information about the component
+      required:
+        - name
+        - repoUrl
+        - description
+      properties:
+        name:
+          title: Name
+          type: string
+          description: Unique name of the component
+          ui:autofocus: true
+          maxLength: 50
+          pattern: "^[a-zA-Z0-9-]*$"
+          ui:help: "Hint: Name should only contain alphanumeric characters and hyphens"
+          ui:options:
+            rows: 5
+        repoUrl:
+          title: Repository Location
+          type: string
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+        description:
+          title: Description
+          type: string
+          description: A brief description of the component and its purpose
+          ui:options:
+            rows: 5
+
+    - title: Provide information about applications
+      required:
+        - firstAppName
+        - secondAppName
+      properties:
+        firstAppName:
+          title: What is your first app name?
+          type: string
+          description: The name of the first microservice application
+          maxLength: 50
+          pattern: "^[a-zA-Z0-9-]*$"
+          ui:help: "Hint: Name should only contain alphanumeric characters and hyphens"
+          default: core
+        secondAppName:
+          title: What is your second app name?
+          type: string
+          description: The name of your second microservice application.
+          maxLength: 50
+          pattern: "^[a-zA-Z0-9-]*$"
+          ui:help: "Hint: Name should only contain alphanumeric characters and hyphens"
+          default: remote
+
+    - title: Provide information about the deployment environment and credentials
+      required:
+        - kubeconfig
+      properties:
+        kubeconfig:
+          title: Kubeconfig
+          type: string
+          description: Drop your kubeconfig file here in base64 format
+          ui:field: Secret
+
+  steps:
+    - id: fetch-base
+      name: Fetch Base
+      action: fetch:template
+      input:
+        url: ./content
+        copyWithoutTemplating:
+          - "**/.github/**"
+          - "./**/.github/**"
+          - "**/.dockerfiles/**"
+          - "./**/.dockerfiles/**"
+        values:
+          name: ${{ parameters.name }}
+          slug: ${{ parameters.repoUrl | projectSlug }}
+          description: ${{ parameters.description }}
+          coreAppName: ${{ parameters.coreAppName }}
+          remoteAppName: ${{ parameters.remoteAppName }}
+          serverAppName: ${{ parameters.serverAppName }}
+
+    - id: publish
+      name: Publish
+      action: publish:github
+      input:
+        allowedHosts: ["github.com"]
+        description: ${{ parameters.description }}
+        repoUrl: ${{ parameters.repoUrl }}
+        repoVisibility: private
+        defaultBranch: main
+        gitAuthorName: 99xproductcentral
+        gitAuthorEmail: productcentral@99x.io
+        secrets:
+          KUBE_CONFIG: ${{ parameters.kubeconfig }}
+
+    - id: github-action
+      name: Provision Infrastructure
+      action: github:actions:dispatch
+      input:
+        workflowId: "release.yml"
+        repoUrl: ${{ parameters.repoUrl }}
+        branchOrTagName: "main"
+
+    - id: register
+      name: Register
+      action: catalog:register
+      input:
+        repoContentsUrl: ${{ steps['publish'].output.repoContentsUrl }}
+        catalogInfoPath: "/catalog-info.yaml"
+
+  output:
+    links:
+      - title: Repository
+        url: ${{ steps['publish'].output.remoteUrl }}
+      - title: Open in catalog
+        icon: catalog
+        entityRef: ${{ steps['register'].output.entityRef }}
+      - title: CloudFront Distribution ID
+        url: ${{ steps['github-action'].output.cloudfront_distribution_id }}
