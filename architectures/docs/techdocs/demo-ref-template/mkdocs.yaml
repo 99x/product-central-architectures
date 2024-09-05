@@ -1,0 +1,10 @@
+site_name: demo-ref-template
+site_description: "Product Central Architectures - AWS Fullstack App"
+repo_url: https://github.com/99x/product-central-architectures/tree/development/architectures/docs/techdocs/demo-ref-template
+edit_uri: edit/main/docs/techdocs/demo-ref-template
+
+plugins:
+  - techdocs-core
+
+nav:
+  - Intro Page: index.md

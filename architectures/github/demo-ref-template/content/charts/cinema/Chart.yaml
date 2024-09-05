@@ -1,0 +1,24 @@
+apiVersion: v2
+version: 0.2.2
+appVersion: v2.2.2
+name: cinema
+description: A Helm chart to deploy Cinema project in Kubernetes
+home: https://github.com/99x-product-central-dev/microservices-docker-go-mongodb
+type: application
+dependencies:
+  - condition: mongodb.enabled
+    name: mongodb
+    repository: https://charts.bitnami.com/bitnami
+    version: 13.6.x
+  - name: users
+    version: 0.x.x
+  - name: movies
+    version: 0.x.x
+  - name: showtimes
+    version: 0.x.x
+  - name: bookings
+    version: 0.x.x
+  - name: website
+    version: 0.x.x
+sources:
+  - https://github.com/99x-product-central-dev/microservices-docker-go-mongodb

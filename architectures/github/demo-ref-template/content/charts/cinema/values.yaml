@@ -1,0 +1,56 @@
+# Default values for cinema.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+### Mongodb values ###
+mongodb:
+  # define if use mongodb dependency
+  enabled: true
+
+  image:
+    repository: mongo
+    tag: 4.2.23
+
+  readinessProbe:
+    enabled: false
+  livenessProbe:
+    enabled: false
+
+  persistence:
+    mountPath: /data/db
+
+# Cinema website values
+website:
+  args:
+    - "-usersAPI"
+    - "http://cinema-users/api/users/"
+    - "-moviesAPI"
+    - "http://cinema-movies/api/movies/"
+    - "-showtimesAPI"
+    - "http://cinema-showtimes/api/showtimes/"
+    - "-bookingsAPI"
+    - "http://cinema-bookings/api/bookings/"
+
+# Cinema users values
+users:
+  args:
+    - "-mongoURI"
+    - "mongodb://cinema-mongodb:27017/"
+
+# Cinema movies values
+movies:
+  args:
+    - "-mongoURI"
+    - "mongodb://cinema-mongodb:27017/"
+
+# Cinema showtimes values
+showtimes:
+  args:
+    - "-mongoURI"
+    - "mongodb://cinema-mongodb:27017/"
+
+# Cinema bookings values
+bookings:
+  args:
+    - "-mongoURI"
+    - "mongodb://cinema-mongodb:27017/"

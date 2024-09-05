@@ -1,0 +1,92 @@
+name: Build and Deploy to Kubernetes
+
+on:
+  push:
+    tags:
+      - "v*"
+
+env:
+  USERS_IMAGE_NAME: "cinema-users"
+  MOVIES_IMAGE_NAME: "cinema-movies"
+  SHOWTIMES_IMAGE_NAME: "cinema-showtimes"
+  BOOKINGS_IMAGE_NAME: "cinema-bookings"
+  WEBSITE_IMAGE_NAME: "cinema-website"
+  KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
+
+jobs:
+  build-and-deploy:
+    name: "Build and Deploy"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.CR_PAT }}
+
+      - name: Get the version
+        id: get_version
+        run: echo "VERSION=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_OUTPUT
+
+      - name: Build and push microservices
+        env:
+          VERSION: ${{ steps.get_version.outputs.VERSION }}
+        run: |
+          for service in users website movies showtimes bookings; do
+            docker buildx build \
+              --push \
+              --platform linux/amd64,linux/arm/v7,linux/arm64 \
+              -t 99x-product-central-dev/cinema-${service}:${VERSION} \
+              -t ghcr.io/99x-product-central-dev/cinema-${service}:${VERSION} \
+              -f ./${service}/Dockerfile \
+              ./${service}
+          done
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v3
+        with:
+          version: v3.10.0
+
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          version: v1.25.0
+
+      - name: Configure kubectl
+        run: |
+          echo "$KUBE_CONFIG" | base64 -d > kubeconfig.yaml
+          chmod 600 kubeconfig.yaml
+          export KUBECONFIG=kubeconfig.yaml
+
+      - name: Update Helm chart values
+        run: |
+          for service in users movies showtimes bookings website; do
+            yq e -i '.${service}.image.tag = "${{ steps.get_version.outputs.VERSION }}"' ./charts/cinema/values.yaml
+          done
+
+      - name: Deploy Cinema project
+        run: |
+          helm upgrade cinema \
+            --install \
+            --dependency-update \
+            --namespace cinema \
+            --create-namespace \
+            ./charts/cinema
+
+      - name: Verify deployment
+        run: |
+          kubectl get pods -n cinema
+          kubectl get services -n cinema
