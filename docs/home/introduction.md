@@ -1,22 +1,12 @@
-# Product Central Architecture
+---
+title: Introduction
+layout: home
+nav_order: 1
+description: "Introduction to Product Central"
+parent: Home
+---
 
-Welcome to the Product Central Architecture repository. This space is designed to provide comprehensive guidance and resources for contributors and users of Product Central's reference architecture templates.
-
-## Overview
-
-Product Central provides a set of reference architecture templates to help developers and teams streamline the development and deployment of their applications. These templates offer best practices, standardized structures, and ready-to-use components, ensuring consistency and quality across projects.
-
-## Getting Started
-
-### Key Sections
-
-1. **Introduction**: Learn about Product Central, its mission, and the benefits of using reference architecture templates.
-2. **Contributing**: Detailed guidelines on how to contribute to the repository, including forking, cloning, creating content, and raising pull requests.
-3. **Templates**: Explore the various templates available, their use cases, and detailed documentation.
-4. **Documentation**: Access comprehensive documentation on each template, including TechDocs and Architectural Decision Records (ADRs).
-5. **Support**: Find resources for troubleshooting, support channels, and contact information for repository maintainers.
-
-## Introduction
+# Introduction
 
 Product Central aims to standardize and simplify the development process by providing reference architecture templates that embody best practices and scalable solutions. These templates help teams accelerate their projects and ensure they are built on robust, well-defined foundations.
 
@@ -36,10 +26,6 @@ Reference architecture serves as a blueprint for designing and implementing syst
 - **Best Practices**: Leverage industry best practices embedded in the templates.
 - **Time-Saving**: Reduce development time with ready-to-use components.
 - **Scalability**: Build scalable and maintainable applications.
-
-## Contributing
-
-Interested in contributing? Visit our [Contributing Guide](https://github.com/99x/product-central-architectures/wiki/Contributing-to-Product-Central-Reference-Architecture-Templates) to learn how you can add value to our repository. Whether you’re improving existing templates or creating new ones, your contributions are welcome and valued.
 
 ## Templates
 
