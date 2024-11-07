@@ -74,5 +74,5 @@ docker run -it -p 7007:7007 \
         * Application name: The name of your application.
         * Homepage URL: The URL of your application. For instance, `http://localhost:3000`.
         * Application description: A brief description of your application.
-        * Authorization callback URL: The URL to redirect to after the user authorizes the app. For instance, `http://localhost:3000/api/auth/callback/github`.
+        * Authorization callback URL: The URL to redirect to after the user authorizes the app. For instance, `http://localhost:3000/api/auth/github/handler/frame`.
     * Once created, find the client ID and `generate new` client secret from the app settings.
