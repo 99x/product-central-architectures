@@ -28,3 +28,4 @@ spec:
     - https://github.com/99x/product-central-architectures/blob/development/architectures/github/aws-fullstack-app/template.yaml
     - https://github.com/99x/product-central-architectures/blob/development/architectures/github/99x-design-system/template.yaml
     - https://github.com/99x/product-central-architectures/blob/development/architectures/github/demo-ref-template/template.yaml
+    - https://github.com/99x/product-central-architectures/blob/main/architectures/github/ios-pwa-app/template.yaml

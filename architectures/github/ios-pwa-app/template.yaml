@@ -1,0 +1,203 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: ios-pwa-app
+  title: PWA iOS Application
+  description: A Progressive Web App (PWA) which is a type of web app that can be installed on a device as a standalone application.
+  annotations:
+    backstage.io/adr-location: https://github.com/99x/product-central-architectures/tree/main/architectures/docs/decisions/ios-pwa-app
+    backstage.io/techdocs-ref: url:https://github.com/99x/product-central-architectures/tree/main/architectures/docs/techdocs/ios-pwa-app
+  tags:
+    - pwa
+    - native-ios
+    - xcode
+    - ios-swift
+    - reference-architecture
+  links:
+    - url: https://github.com/99x/product-central-architectures
+      title: 99x Product Central Architectures
+      icon: dashboard
+
+spec:
+  owner: user:99xadmin
+  type: service
+
+  parameters:
+    - title: Provide information about the component
+      required:
+        - name
+        - repoUrl
+        - description
+      properties:
+        name:
+          title: Name
+          type: string
+          description: Unique name of the component
+          ui:autofocus: true
+          maxLength: 50
+          pattern: "^[a-zA-Z0-9-]*$"
+          ui:help: "Hint: Name should only contain alphanumeric characters and hyphens"
+          ui:options:
+            rows: 5
+        repoUrl:
+          title: Repository Location
+          type: string
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+        description:
+          title: Description
+          type: string
+          description: A brief description of the component and its purpose
+          ui:options:
+            rows: 5
+
+    - title: Provide information about applications
+      required:
+        - coreAppName
+        - remoteAppName
+        - serverAppName
+      properties:
+        coreAppName:
+          title: What would you like to name the client core application?
+          type: string
+          description: The name of the client core application
+          maxLength: 50
+          pattern: "^[a-zA-Z0-9-]*$"
+          ui:help: "Hint: Name should only contain alphanumeric characters and hyphens"
+          default: core
+        remoteAppName:
+          title: What would you like to name the first client remote application? (You can always add more remote applications later)
+          type: string
+          description: The name of the genesis client remote application
+          maxLength: 50
+          pattern: "^[a-zA-Z0-9-]*$"
+          ui:help: "Hint: Name should only contain alphanumeric characters and hyphens"
+          default: remote
+        serverAppName:
+          title: What would you like to name the server application?
+          type: string
+          description: The name of the server application
+          maxLength: 50
+          pattern: "^[a-zA-Z0-9-]*$"
+          ui:help: "Hint: Name should only contain alphanumeric characters and hyphens"
+          default: server
+
+    - title: Provide information about the deployment environment and credentials
+      required:
+        - project
+        - environment
+        - awsRegion
+        - awsAccessKeyId
+        - awsSecretAccessKey
+        - bucketName
+      properties:
+        project:
+          title: Project
+          type: string
+          description: Specify the project name for AWS resources
+          maxLength: 50
+          pattern: "^[a-zA-Z0-9-]*$"
+          ui:help: "Hint: Name should only contain alphanumeric characters and hyphens"
+        environment:
+          title: Environment
+          type: string
+          description: Choose the environment to deploy to
+          enum:
+            - dev
+            - demo
+            - prod
+          default: dev
+        awsAccessKeyId:
+          title: AWS Access Key ID
+          type: string
+          description: The AWS access key ID to access the AWS resources
+          ui:field: Secret
+        awsSecretAccessKey:
+          title: AWS Secret Access Key
+          type: string
+          description: The AWS secret access key to access the AWS resources
+          ui:field: Secret
+        awsRegion:
+          title: Default Region
+          type: string
+          description: The default region to deploy the application
+          enum:
+            - us-east-1
+            - us-west-1
+            - us-west-2
+            - eu-west-1
+            - eu-west-2
+            - ap-southeast-1
+            - ap-southeast-2
+            - ap-northeast-1
+            - ap-northeast-2
+          default: ap-southeast-1
+        bucketName:
+          title: S3 Bucket Name
+          type: string
+          description: The name of the S3 bucket to store the Terraform state file
+          default: client-bucket
+
+  steps:
+    - id: fetch-base
+      name: Fetch Base
+      action: fetch:template
+      input:
+        url: ./content
+        copyWithoutTemplating:
+          - "**/.github/**"
+          - "./**/.github/**"
+           - "**/.dockerfiles/**"
+          - "./**/.dockerfiles/**"
+        values:
+          name: $
+          slug: $
+          description: $
+          coreAppName: $
+          remoteAppName: $
+          serverAppName: $
+
+    - id: publish
+      name: Publish
+      action: publish:github
+      input:
+        allowedHosts: ["github.com"]
+        description: $
+        repoUrl: $
+        repoVisibility: private
+        defaultBranch: main
+        gitAuthorName: 99xproductcentral
+        gitAuthorEmail: productcentral@99x.io
+        secrets:
+          AWS_ACCESS_KEY_ID: $
+          AWS_SECRET_ACCESS_KEY: $
+          AWS_REGION: $
+
+    - id: github-action
+      name: Provision Infrastructure
+      action: github:actions:dispatch
+      input:
+        workflowId: "init-infra.yaml"
+        repoUrl: $
+        branchOrTagName: "main"
+        workflowInputs:
+          parameters: $
+
+    - id: register
+      name: Register
+      action: catalog:register
+      input:
+        repoContentsUrl: $
+        catalogInfoPath: "/catalog-info.yaml"
+
+  output:
+    links:
+      - title: Repository
+        url: $
+      - title: Open in catalog
+        icon: catalog
+        entityRef: $
+      - title: CloudFront Distribution ID
+        url: $
