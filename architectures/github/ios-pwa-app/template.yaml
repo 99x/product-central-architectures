@@ -59,18 +59,10 @@ spec:
       action: fetch:template
       input:
         url: ./content
-        copyWithoutTemplating:
-          - "**/.github/**"
-          - "./**/.github/**"
-           - "**/.dockerfiles/**"
-          - "./**/.dockerfiles/**"
         values:
-          name: $
-          slug: $
-          description: $
-          coreAppName: $
-          remoteAppName: $
-          serverAppName: $
+          name: ${{ parameters.name }}
+          slug: ${{ parameters.repoUrl | projectSlug }}
+          description: ${{ parameters.description }}
 
     - id: publish
       name: Publish
@@ -83,20 +75,6 @@ spec:
         defaultBranch: main
         gitAuthorName: 99xproductcentral
         gitAuthorEmail: productcentral@99x.io
-        secrets:
-          AWS_ACCESS_KEY_ID: $
-          AWS_SECRET_ACCESS_KEY: $
-          AWS_REGION: $
-
-    - id: github-action
-      name: Provision Infrastructure
-      action: github:actions:dispatch
-      input:
-        workflowId: "init-infra.yaml"
-        repoUrl: $
-        branchOrTagName: "main"
-        workflowInputs:
-          parameters: $
 
     - id: register
       name: Register

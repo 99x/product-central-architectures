@@ -15,7 +15,6 @@ class ViewController: UIViewController {
     @IBOutlet var apiDataView: UITableView!
     
     let apiService = ApiClient()
-    //Dispose bag
     let disposeBag = DisposeBag()
 
     override func viewDidLoad() {
@@ -24,7 +23,6 @@ class ViewController: UIViewController {
         apiService.fetchData()
             .subscribe(
                 onNext: { response in
-                    //print("Data received: \(response)")
                     self.apiResult = response
                     DispatchQueue.main.async {
                         self.apiDataView.reloadData()
