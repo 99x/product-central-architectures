@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="RA_APP" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="0oW-ug-Uan">
+                                <rect key="frame" x="16" y="59" width="361" height="699"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="default_cell" id="rbm-KR-6sE">
+                                        <rect key="frame" x="0.0" y="50" width="361" height="48.666667938232422"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="rbm-KR-6sE" id="Xhw-Kd-fIb">
+                                            <rect key="frame" x="0.0" y="0.0" width="361" height="48.666667938232422"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="xof-Y4-drv"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="FwJ-DW-UNj"/>
+                                </connections>
+                            </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gi1-Fa-jdK">
+                                <rect key="frame" x="119" y="781" width="155" height="37"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Almofire Request"/>
+                                <connections>
+                                    <segue destination="VhA-rd-eEk" kind="show" id="iFR-Jr-Rt4"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="0oW-ug-Uan" secondAttribute="trailing" constant="16" id="DJb-Hg-djt"/>
+                            <constraint firstItem="0oW-ug-Uan" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="ISE-JZ-vZV"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="0oW-ug-Uan" secondAttribute="bottom" constant="60" id="VHe-TO-Wo2"/>
+                            <constraint firstItem="0oW-ug-Uan" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="lXf-KK-e2m"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="apiDataView" destination="0oW-ug-Uan" id="CE8-3x-nAX"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="101.5267175572519" y="3.5211267605633805"/>
+        </scene>
+        <!--Alamofire Data View Controller-->
+        <scene sceneID="ZXN-md-Om7">
+            <objects>
+                <viewController id="VhA-rd-eEk" customClass="AlamofireDataViewController" customModule="RA_APP" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="AN3-hQ-yJv">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Cyy-ez-YBM">
+                                <rect key="frame" x="16" y="0.0" width="361" height="842"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="default_cell" id="OhM-jn-SHo">
+                                        <rect key="frame" x="0.0" y="50" width="361" height="48.666667938232422"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="OhM-jn-SHo" id="4Gj-N0-GbG">
+                                            <rect key="frame" x="0.0" y="0.0" width="361" height="48.666667938232422"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="VhA-rd-eEk" id="bGE-JV-GJG"/>
+                                    <outlet property="delegate" destination="VhA-rd-eEk" id="uOM-So-Y6g"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="DBu-t4-vIz"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Cyy-ez-YBM" firstAttribute="top" secondItem="DBu-t4-vIz" secondAttribute="top" id="LEz-LG-nBq"/>
+                            <constraint firstItem="Cyy-ez-YBM" firstAttribute="leading" secondItem="DBu-t4-vIz" secondAttribute="leading" constant="16" id="jFv-o6-Jev"/>
+                            <constraint firstItem="DBu-t4-vIz" firstAttribute="trailing" secondItem="Cyy-ez-YBM" secondAttribute="trailing" constant="16" id="scT-a4-Dze"/>
+                            <constraint firstItem="DBu-t4-vIz" firstAttribute="bottom" secondItem="Cyy-ez-YBM" secondAttribute="bottom" id="zmQ-KU-XmY"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="3fo-dh-0Xa"/>
+                    <connections>
+                        <outlet property="alamofireDataView" destination="Cyy-ez-YBM" id="Ynb-zK-PMX"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="auB-cE-Zjt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="992" y="4"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
