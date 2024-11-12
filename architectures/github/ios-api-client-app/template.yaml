@@ -1,16 +1,19 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: ios-pwa-app
-  title: PWA iOS Application
-  description: A Progressive Web App (PWA) which is a type of web app that can be installed on a device as a standalone application.
+  name: ios-api-client-app
+  title: iOS Application With Networking Libraries
+  description: iOS Application With Networking Libraries including Alamofire framework along with RxSwift. This includes the basic API call structure.
   annotations:
     backstage.io/adr-location: https://github.com/99x/product-central-architectures/tree/development/architectures/docs/decisions/ios-api-client-app
     backstage.io/techdocs-ref: url:https://github.com/99x/product-central-architectures/tree/development/architectures/docs/techdocs/ios-api-client-app
   tags:
-    - pwa
     - native-ios
+    - networking-library
     - xcode
+    - ios-swift
+    - alamofire
+    - rx-swift
     - ios-swift
     - reference-architecture
   links:
