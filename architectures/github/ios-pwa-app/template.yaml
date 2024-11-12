@@ -1,0 +1,94 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: ios-pwa-app
+  title: PWA iOS Application
+  description: A Progressive Web App (PWA) which is a type of web app that can be installed on a device as a standalone application.
+  annotations:
+    backstage.io/adr-location: https://github.com/99x/product-central-architectures/tree/development/architectures/docs/decisions/ios-pwa-app
+    backstage.io/techdocs-ref: url:https://github.com/99x/product-central-architectures/tree/development/architectures/docs/techdocs/ios-pwa-app
+  tags:
+    - pwa
+    - native-ios
+    - xcode
+    - ios-swift
+    - reference-architecture
+  links:
+    - url: https://github.com/99x/product-central-architectures
+      title: 99x Product Central Architectures
+      icon: dashboard
+
+spec:
+  owner: user:99xadmin
+  type: service
+
+  parameters:
+    - title: Provide information about the component
+      required:
+        - name
+        - repoUrl
+        - description
+      properties:
+        name:
+          title: Name
+          type: string
+          description: Unique name of the component
+          ui:autofocus: true
+          maxLength: 50
+          pattern: "^[a-zA-Z0-9-]*$"
+          ui:help: "Hint: Name should only contain alphanumeric characters and hyphens"
+          ui:options:
+            rows: 5
+        repoUrl:
+          title: Repository Location
+          type: string
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+        description:
+          title: Description
+          type: string
+          description: A brief description of the component and its purpose
+          ui:options:
+            rows: 5
+
+  steps:
+    - id: fetch-base
+      name: Fetch Base
+      action: fetch:template
+      input:
+        url: ./content
+        values:
+          name: ${{ parameters.name }}
+          slug: ${{ parameters.repoUrl | projectSlug }}
+          description: ${{ parameters.description }}
+
+    - id: publish
+      name: Publish
+      action: publish:github
+      input:
+        allowedHosts: ["github.com"]
+        description: $
+        repoUrl: $
+        repoVisibility: private
+        defaultBranch: main
+        gitAuthorName: 99xproductcentral
+        gitAuthorEmail: productcentral@99x.io
+
+    - id: register
+      name: Register
+      action: catalog:register
+      input:
+        repoContentsUrl: $
+        catalogInfoPath: "/catalog-info.yaml"
+
+  output:
+    links:
+      - title: Repository
+        url: $
+      - title: Open in catalog
+        icon: catalog
+        entityRef: $
+      - title: CloudFront Distribution ID
+        url: $

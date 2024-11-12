@@ -1,0 +1,24 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ${{ values.name | dump }}
+  annotations:
+    github.com/project-slug: ${{ values.slug }}
+     backstage.io/adr-location: https://github.com/99x/product-central-architectures/tree/development/architectures/docs/decisions/ios-pwa-app
+    backstage.io/techdocs-ref: url:https://github.com/99x/product-central-architectures/tree/development/architectures/docs/techdocs/ios-pwa-app
+ description: ${{ values.name }} is a Progressive Web App (PWA) which is a type of web app that can be installed on a device as a standalone application.
+  tags:
+    - pwa
+    - native-ios
+    - xcode
+    - ios-swift
+    - reference-architecture
+  links:
+    - url: https://github.com/99x/product-central-architectures
+      title: 99x Product Central Architectures
+      icon: dashboard
+spec:
+  type: service
+  owner: user:user:99xadmin
+  lifecycle: production
+  system: productcentral

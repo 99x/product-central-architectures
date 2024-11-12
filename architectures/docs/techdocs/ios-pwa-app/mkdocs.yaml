@@ -1,0 +1,10 @@
+site_name: ios-pwa-app
+site_description: "A Progressive Web App (PWA) is a type of web app that can be installed on a device as a standalone application."
+repo_url: https://github.com/99x/product-central-architectures/tree/development/architectures/docs/techdocs/ios-pwa-app
+edit_uri: edit/development/docs/techdocs/ios-pwa-app
+
+plugins:
+  - techdocs-core
+
+nav:
+  - Application Architecture: index.md
