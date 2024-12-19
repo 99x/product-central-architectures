@@ -43,7 +43,7 @@ variable "organization_name" {
 variable "container_image" {
   type        = string
   description = "Container image"
-  default     = "99xproductcentral/product-central:tutorial.aws-1.0.0"
+  default     = "public.ecr.aws/q6x6r0m5/product-central:tutorial.aws-1.0.0"
 }
 
 variable "public_subnets" {

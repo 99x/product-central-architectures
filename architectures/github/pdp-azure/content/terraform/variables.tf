@@ -62,7 +62,7 @@ variable "organization_name" {
 
 variable "container_image" {
   type        = string
-  default     = "99xproductcentral/product-central:latest"
+  default     = "public.ecr.aws/q6x6r0m5/product-central:latest"
   description = "Container image"
 }
 
