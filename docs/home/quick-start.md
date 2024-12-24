@@ -34,7 +34,7 @@ docker run -it -p 7007:7007 \
   -e GITHUB_TOKEN=<github_PAT> \
   -e AUTH_GITHUB_CLIENT_ID=<github_client_id> \
   -e AUTH_GITHUB_CLIENT_SECRET=<github_client_secret> \
-  99xproductcentral/product-central:<version>
+  public.ecr.aws/q6x6r0m5/product-central:<version>
 ```
 
 <br/>
